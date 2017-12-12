@@ -12,15 +12,17 @@ public class MomentJSON {
 
     @SerializedName("title")
     public String title;
-    @SerializedName("description")
-    public String description;
     @SerializedName("date")
     public String date;
+    @SerializedName("description")
+    public String description;
     @SerializedName("images")
-    public ArrayList<Image> images;
+    public String[] images;
+
+    /*public ArrayList<Image> images;
 
     static public class Image {
         @SerializedName("path")
         public String path;
-    }
+    }*/
 }

@@ -228,7 +228,7 @@ public class NetworkFragment extends Fragment {
                     // Converts Stream to String with max length of 500.
                     //result = readStream(stream, 500);
                     if (contentType == Consts.CONTENT_TYPE_JSON) {
-                        result = new Result(readString(stream, 500));
+                        result = new Result(readString(stream, 2000));
                     } else if (contentType == Consts.CONTENT_TYPE_IMAGE) {
                         result = new Result(readBitmap(stream));
                     }

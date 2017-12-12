@@ -6,13 +6,22 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.paul.moment.R;
+import fr.paul.moment.gallery.GridViewAdapter;
+import fr.paul.moment.gallery.ImageItem;
 import fr.paul.moment.json.MomentJSON;
 import fr.paul.moment.network.DownloadCallback;
 import fr.paul.moment.network.NetworkFragment;
@@ -29,20 +38,20 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
     // downloads with consecutive button clicks.
     private boolean mDownloading = false;
 
-    LinearLayout ll;
-    LinearLayout lm;
+    GridView gv;
+    ArrayList<ImageItem> imageItems;
+    ArrayAdapter<ImageItem> gridAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment);
 
-        lm = (LinearLayout) findViewById(R.id.linearMain);
+        imageItems = new ArrayList<>();
 
-        ll = new LinearLayout(this);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        lm.addView(ll);
-
+        gv = (GridView) findViewById(R.id.gridView);
+        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, imageItems);
+        gv.setAdapter(gridAdapter);
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager());
         startDownload(mNetworkFragment, Consts.BASE_URL + Consts.SERVER_SCRIPT, Consts.CONTENT_TYPE_JSON);
@@ -70,7 +79,15 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
             } else if (result.mResultImage != null) {
                 ImageView img = new ImageView(this);
                 img.setImageBitmap(result.mResultImage);
-                ll.addView(img);
+
+                imageItems.add(new ImageItem(result.mResultImage, "Image#"));
+
+                //imgList.add(imgList.size(),img);
+
+                // Update the GridView
+                gridAdapter.notifyDataSetChanged();
+
+                //ll.addView(img);
             }
         }
     }
@@ -112,17 +129,26 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
     }
 
     private void readJSON(String json) {
+        Log.d("JSON", json);
         MomentJSON moment = new Gson().fromJson(json, MomentJSON.class);
-        TextView txt = findViewById(R.id.textView);
-        txt.setText(moment.title);
+        TextView title = findViewById(R.id.titleView);
+        title.setText(moment.title);
+
+        TextView date = findViewById(R.id.dateView);
+        date.setText(moment.date);
+
+        TextView desc = findViewById(R.id.descView);
+        desc.setText(moment.description);
+
 
         if(moment.images != null) {
+            Log.d("Network", "n images " + moment.images.length);
             // TODO: we need to create one imageview per image in the list
             // TODO: wht happen with parallel dl ? probably wont work, might need 1 networkfragment per dl
-            for(int i=0; i<moment.images.size(); i++) {
-                Log.d("Network", moment.images.get(i).path);
+            for(int i=0; i<moment.images.length; i++) {
+                Log.d("Network", "path " + moment.images[i]);
                 NetworkFragment nFragment = NetworkFragment.getInstance(getSupportFragmentManager());
-                startDownload(nFragment, Consts.BASE_URL + moment.images.get(i).path, Consts.CONTENT_TYPE_IMAGE);
+                startDownload(nFragment, Consts.BASE_URL + moment.images[i], Consts.CONTENT_TYPE_IMAGE);
             }
         }
     }
