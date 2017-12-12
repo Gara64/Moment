@@ -30,7 +30,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.MomentActivity"></activity>
+        <activity android:name=".activities.MomentActivity" />
+        <activity android:name=".activities.ImageActivity"></activity>
     </application>
 
 </manifest>

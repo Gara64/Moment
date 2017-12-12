@@ -1,11 +1,14 @@
 package fr.paul.moment.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -52,6 +55,18 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
         gv = (GridView) findViewById(R.id.gridView);
         gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, imageItems);
         gv.setAdapter(gridAdapter);
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                                          ImageItem item = (ImageItem) parent.getItemAtPosition(position);
+                                          //Create intent
+                                          Intent intent = new Intent(MomentActivity.this, ImageActivity.class);
+                                          intent.putExtra("title", item.getTitle());
+                                          intent.putExtra("image", item.getImage());
+
+                                          //Start details activity
+                                          startActivity(intent);
+                                      }
+                                  });
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager());
         startDownload(mNetworkFragment, Consts.BASE_URL + Consts.SERVER_SCRIPT, Consts.CONTENT_TYPE_JSON);
@@ -152,4 +167,6 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
             }
         }
     }
+
+
 }
