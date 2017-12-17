@@ -1,6 +1,7 @@
 package fr.paul.moment.activities;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -16,7 +17,9 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
 
         String title = getIntent().getStringExtra("title");
-        Bitmap bitmap = getIntent().getParcelableExtra("image");
+        //Bitmap bitmap = getIntent().getParcelableExtra("image");
+        byte[] bytes = getIntent().getByteArrayExtra("image");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
         TextView titleTextView = (TextView) findViewById(R.id.title);
         titleTextView.setText(title);

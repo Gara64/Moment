@@ -2,6 +2,7 @@ package fr.paul.moment.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +63,12 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
                                           //Create intent
                                           Intent intent = new Intent(MomentActivity.this, ImageActivity.class);
                                           intent.putExtra("title", item.getTitle());
-                                          intent.putExtra("image", item.getImage());
+
+                                          // Compress
+                                          ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                          item.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                          byte[] bytes = stream.toByteArray();
+                                          intent.putExtra("image", bytes);
 
                                           //Start details activity
                                           startActivity(intent);
@@ -95,7 +102,7 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
                 ImageView img = new ImageView(this);
                 img.setImageBitmap(result.mResultImage);
 
-                imageItems.add(new ImageItem(result.mResultImage, "Image#"));
+                imageItems.add(new ImageItem(result.mResultImage, ""));
 
                 //imgList.add(imgList.size(),img);
 
