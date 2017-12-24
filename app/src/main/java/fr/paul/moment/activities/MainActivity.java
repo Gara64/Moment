@@ -67,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+   public void startDialog(View v) {
+        ManualMomentDialog dialog = new ManualMomentDialog();
+        dialog.show(getFragmentManager(), "DialogFragment");
+   }
+
 
 
 }

@@ -17,7 +17,6 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
 
         String title = getIntent().getStringExtra("title");
-        //Bitmap bitmap = getIntent().getParcelableExtra("image");
         byte[] bytes = getIntent().getByteArrayExtra("image");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 

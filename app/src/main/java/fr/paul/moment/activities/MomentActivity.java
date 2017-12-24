@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,10 +48,21 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
     ArrayList<ImageItem> imageItems;
     ArrayAdapter<ImageItem> gridAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment);
+
+        // Make the desc field scrollable
+        TextView desc = findViewById(R.id.descView);
+        desc.setMovementMethod(new ScrollingMovementMethod());
+
+        // Check if the moment is manual or random
+        Intent intent = getIntent();
+        String manualMoment = intent.getStringExtra(Consts.MANUAL_MOMENT);
+        Log.d("network", "manualMoment : " + manualMoment);
+
 
         imageItems = new ArrayList<>();
 
@@ -76,7 +88,11 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
                                   });
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager());
-        startDownload(mNetworkFragment, Consts.BASE_URL + Consts.SERVER_SCRIPT, Consts.CONTENT_TYPE_JSON);
+
+        if (manualMoment != null)
+            startDownload(mNetworkFragment, Consts.BASE_URL + Consts.CONTENT_TYPE_JSON + "/" + manualMoment, Consts.CONTENT_TYPE_JSON);
+        else
+            startDownload(mNetworkFragment, Consts.BASE_URL + Consts.SERVER_SCRIPT, Consts.CONTENT_TYPE_JSON);
     }
 
 

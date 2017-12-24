@@ -4,5 +4,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="start_moment">Lancer un moment !</string>
+    <string name="enter_moment_url">Entrez le moment à afficher</string>
+    <string name="ok">OK</string>
+    <string name="nope">Nope</string>
 
 </resources>
