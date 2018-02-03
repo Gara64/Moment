@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoView;
+
 import fr.paul.moment.R;
 
 public class ImageActivity extends AppCompatActivity {
@@ -23,7 +25,7 @@ public class ImageActivity extends AppCompatActivity {
         TextView titleTextView = (TextView) findViewById(R.id.title);
         titleTextView.setText(title);
 
-        ImageView imageView = (ImageView) findViewById(R.id.image);
-        imageView.setImageBitmap(bitmap);
+        PhotoView photoView = (PhotoView) findViewById(R.id.image);
+        photoView.setImageBitmap(bitmap);
     }
 }

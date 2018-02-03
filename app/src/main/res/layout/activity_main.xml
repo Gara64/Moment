@@ -7,24 +7,13 @@
     android:layout_height="match_parent"
     tools:context="fr.paul.moment.activities.MainActivity">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
-
     <ImageButton
         android:id="@+id/startBtn"
         android:layout_width="201dp"
         android:layout_height="184dp"
-        android:adjustViewBounds="false"
+        android:adjustViewBounds="true"
         android:background="#00000000"
+        android:cropToPadding="false"
         android:onClick="startMoment"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,9 +39,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Spécifier manuellement"
+        android:layout_marginTop="84dp"
         android:onClick="startDialog"
+        android:text="Spécifier manuellement"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
