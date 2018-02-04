@@ -33,7 +33,6 @@ public class ManualMomentDialog extends DialogFragment {
 
                         Intent intent = new Intent(getActivity(), MomentActivity.class);
                         intent.putExtra(Consts.MANUAL_MOMENT, inputText.getText().toString());
-                        Log.d("dialog", "input text: " + inputText.getText().toString());
 
                         startActivity(intent);
                     }

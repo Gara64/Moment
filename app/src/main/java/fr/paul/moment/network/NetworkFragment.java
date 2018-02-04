@@ -141,7 +141,6 @@ public class NetworkFragment extends Fragment {
             String urlString = params[0];
             String contentType = params[1];
             if (!isCancelled() && urlString != "") {
-                Log.d("Network", "url : " + urlString);
                 try {
                     URL url = new URL(urlString);
                     result = downloadUrl(url, contentType);
@@ -162,7 +161,6 @@ public class NetworkFragment extends Fragment {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            Log.d("Network", "on progress update : " + values);
             if (values.length >= 2) {
                 mCallback.onProgressUpdate(values[0], values[1]);
             }
@@ -178,7 +176,6 @@ public class NetworkFragment extends Fragment {
 
                 if (result.mException != null) {
                     Log.e("Network", "Error post execute : " + result.mException.getMessage());
-                    //mCallback.updateFromDownload(result.mException.getMessage());
                     mCallback.updateFromDownload(null);
                 } else {
                     mCallback.updateFromDownload(result);
