@@ -8,15 +8,11 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -44,7 +40,7 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
     private boolean mDownloading = false;
 
     GridView gv;
-    ArrayList<ImageItem> imageItems;
+    public static ArrayList<ImageItem> imageItems;
     ArrayAdapter<ImageItem> gridAdapter;
 
 
@@ -67,22 +63,19 @@ public class MomentActivity extends FragmentActivity implements DownloadCallback
         gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, imageItems);
         gv.setAdapter(gridAdapter);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                                          ImageItem item = (ImageItem) parent.getItemAtPosition(position);
-                                          //Create intent
-                                          Intent intent = new Intent(MomentActivity.this, ImageActivity.class);
-                                          intent.putExtra("title", item.getTitle());
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                //Create intent
+                ImageItem item = (ImageItem) parent.getItemAtPosition(position);
+                Intent intent = new Intent(MomentActivity.this, ImageActivity.class);
 
-                                          // Compress
-                                          ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                          item.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                          byte[] bytes = stream.toByteArray();
-                                          intent.putExtra("image", bytes);
+                // Pass the parameters
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("position", position);
 
-                                          //Start details activity
-                                          startActivity(intent);
-                                      }
-                                  });
+                //Start details activity
+                startActivity(intent);
+            }
+        });
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager());
 
